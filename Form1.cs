@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 namespace DiskBrowser
 {
     public partial class Form1 : Form
@@ -139,13 +141,17 @@ namespace DiskBrowser
 
         private void listView1_DoubleClick(object sender, EventArgs e)
         {
-            //Todo 2.: Finish this!
+            string diskFile = treeView1.SelectedNode.FullPath;
+
+            if(!diskFile.EndsWith("\\")) diskFile += "\\";
+
+            diskFile += listView1.FocusedItem.Text;
+
+            if (File.Exists(diskFile)) Process.Start( new ProcessStartInfo { FileName = diskFile, UseShellExecute = true} );
         }
     }
 }
 
-/*Todo:
- 1. Exception handling
- 2. Finnish this!
- 
- */
+/*
+ Todo: 1. Exception handling
+*/
