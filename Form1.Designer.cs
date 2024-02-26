@@ -31,6 +31,9 @@
             treeView1 = new TreeView();
             listView1 = new ListView();
             columnHeader1 = new ColumnHeader();
+            columnHeader2 = new ColumnHeader();
+            columnHeader3 = new ColumnHeader();
+            columnHeader4 = new ColumnHeader();
             splitter1 = new Splitter();
             SuspendLayout();
             // 
@@ -39,32 +42,48 @@
             treeView1.Dock = DockStyle.Left;
             treeView1.Location = new Point(0, 0);
             treeView1.Name = "treeView1";
-            treeView1.Size = new Size(190, 450);
+            treeView1.Size = new Size(350, 761);
             treeView1.TabIndex = 0;
             treeView1.BeforeExpand += treeView1_BeforeExpand;
             treeView1.AfterSelect += treeView1_AfterSelect;
             // 
             // listView1
             // 
-            listView1.Columns.AddRange(new ColumnHeader[] { columnHeader1 });
+            listView1.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2, columnHeader3, columnHeader4 });
             listView1.Dock = DockStyle.Fill;
-            listView1.Location = new Point(190, 0);
+            listView1.Location = new Point(350, 0);
             listView1.Name = "listView1";
-            listView1.Size = new Size(610, 450);
+            listView1.Size = new Size(658, 761);
             listView1.TabIndex = 1;
             listView1.UseCompatibleStateImageBehavior = false;
             listView1.View = View.Details;
+            listView1.DoubleClick += listView1_DoubleClick;
             // 
             // columnHeader1
             // 
             columnHeader1.Text = "Filename";
-            columnHeader1.Width = 200;
+            columnHeader1.Width = 350;
+            // 
+            // columnHeader2
+            // 
+            columnHeader2.Text = "Size";
+            columnHeader2.Width = 80;
+            // 
+            // columnHeader3
+            // 
+            columnHeader3.Text = "Modified";
+            columnHeader3.Width = 80;
+            // 
+            // columnHeader4
+            // 
+            columnHeader4.Text = "Attributes";
+            columnHeader4.Width = 80;
             // 
             // splitter1
             // 
-            splitter1.Location = new Point(190, 0);
+            splitter1.Location = new Point(350, 0);
             splitter1.Name = "splitter1";
-            splitter1.Size = new Size(8, 450);
+            splitter1.Size = new Size(8, 761);
             splitter1.TabIndex = 2;
             splitter1.TabStop = false;
             // 
@@ -72,7 +91,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1008, 761);
             Controls.Add(splitter1);
             Controls.Add(listView1);
             Controls.Add(treeView1);
@@ -88,5 +107,8 @@
         private ListView listView1;
         private Splitter splitter1;
         private ColumnHeader columnHeader1;
+        private ColumnHeader columnHeader2;
+        private ColumnHeader columnHeader3;
+        private ColumnHeader columnHeader4;
     }
 }
