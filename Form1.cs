@@ -12,7 +12,7 @@ namespace DiskBrowser
             InitializeComponent();
         }
 
-        public void ShowDrives()
+        private void ShowDrives()
         {
             //Begin 
             treeView1.BeginUpdate();
@@ -34,7 +34,7 @@ namespace DiskBrowser
             treeView1.EndUpdate();
         }
 
-        public void ShowFileNames()
+        private void ShowFileNames()
         {
             DirectoryInfo directoryInfo = new DirectoryInfo(treeView1.SelectedNode.FullPath);
             FileInfo[] filesArray = { };
@@ -77,7 +77,7 @@ namespace DiskBrowser
             listView1.EndUpdate();
         }
 
-        public void AddDirs(TreeNode treeNode)
+        private void AddDirs(TreeNode treeNode)
         {
             string fullPath = treeNode.FullPath;
             DirectoryInfo directoryPath = new DirectoryInfo(fullPath);
@@ -131,7 +131,7 @@ namespace DiskBrowser
 
             foreach (TreeNode treeNodeItem in e.Node.Nodes)
             {
-                AddDirs(treeNodeItem);          //Todo 3.: Prevent fileduplication (video comment)
+                AddDirs(treeNodeItem);          //Todo 3.: Prevent directory duplication
             }
 
             treeView1.EndUpdate();
@@ -166,10 +166,10 @@ namespace DiskBrowser
             else
             {
                 zFile = $"{path}.zip";
-                MessageBox.Show($"About to zip {path} to {zFile}");
+                MessageBox.Show($"About to zip {path} to {zFile} -- That can take some time...");
                 ZipFile.CreateFromDirectory(path, zFile);   //Todo 2.: Set compression level
 
-                MessageBox.Show(Path.GetFileName(path) + ".zip has been created");
+                MessageBox.Show(Path.GetFileName(path) + ".zip has been created!");
             }
         }
 
@@ -199,13 +199,61 @@ namespace DiskBrowser
             {
                 path = treeNode.FullPath;
                 result = MessageBox.Show($"Zip {path}?", "Zip this directory", buttons);
+
+                //Test result of the button press
+                if(result == System.Windows.Forms.DialogResult.Yes) 
+                {
+                    ZipFolder(path);
+                }
+                else
+                {
+                    MessageBox.Show("Cancelled!");
+                }
             }
 
         }
 
         private void unziptoolStripMenuItem2_Click(object sender, EventArgs e)
         {
+            string diskFile;
+            string fileExtension;
+            string dir;
+            TreeNode treeNode;
 
+            MessageBoxButtons buttons;
+            DialogResult result;
+
+            buttons = MessageBoxButtons.YesNo;
+            diskFile = SelectedFilePath();
+            dir = treeView1.SelectedNode.FullPath;
+            fileExtension = Path.GetExtension(diskFile).ToLower();
+
+            treeNode = treeView1.SelectedNode;
+
+            if(diskFile == "")
+            {
+                MessageBox.Show("No file selected!");
+            }
+            else if (fileExtension != ".zip")
+            {
+                MessageBox.Show("File is not a zip archive!");
+            }
+            else
+            {
+                result = MessageBox.Show($"Unzip {diskFile}?", "Unzip this ZipFile", buttons);
+
+                if(result == DialogResult.Yes)
+                {
+                    UnZip(dir, diskFile);
+                    AddDirs(treeNode);  //Updates subdirectories under treenode
+                    MessageBox.Show($"{diskFile} has been unzipped!");
+                }
+                else
+                {
+                    MessageBox.Show("Cancelled!");
+                }
+            }
+            
         }
     }
 }
@@ -213,5 +261,5 @@ namespace DiskBrowser
 /*
  Todo 1.: Exception handling
  Todo 2.: Set compression level
- Todo 3.: Prevent fileduplication (video comment)
+ Todo 3.: Prevent directory duplication
 */
