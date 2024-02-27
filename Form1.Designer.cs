@@ -35,14 +35,19 @@
             columnHeader3 = new ColumnHeader();
             columnHeader4 = new ColumnHeader();
             splitter1 = new Splitter();
+            menuStrip1 = new MenuStrip();
+            zipToolStripMenuItem = new ToolStripMenuItem();
+            ziptoolStripMenuItem1 = new ToolStripMenuItem();
+            unziptoolStripMenuItem2 = new ToolStripMenuItem();
+            menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // treeView1
             // 
             treeView1.Dock = DockStyle.Left;
-            treeView1.Location = new Point(0, 0);
+            treeView1.Location = new Point(0, 24);
             treeView1.Name = "treeView1";
-            treeView1.Size = new Size(350, 761);
+            treeView1.Size = new Size(350, 737);
             treeView1.TabIndex = 0;
             treeView1.BeforeExpand += treeView1_BeforeExpand;
             treeView1.AfterSelect += treeView1_AfterSelect;
@@ -51,9 +56,9 @@
             // 
             listView1.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2, columnHeader3, columnHeader4 });
             listView1.Dock = DockStyle.Fill;
-            listView1.Location = new Point(350, 0);
+            listView1.Location = new Point(350, 24);
             listView1.Name = "listView1";
-            listView1.Size = new Size(658, 761);
+            listView1.Size = new Size(658, 737);
             listView1.TabIndex = 1;
             listView1.UseCompatibleStateImageBehavior = false;
             listView1.View = View.Details;
@@ -81,11 +86,41 @@
             // 
             // splitter1
             // 
-            splitter1.Location = new Point(350, 0);
+            splitter1.Location = new Point(350, 24);
             splitter1.Name = "splitter1";
-            splitter1.Size = new Size(8, 761);
+            splitter1.Size = new Size(8, 737);
             splitter1.TabIndex = 2;
             splitter1.TabStop = false;
+            // 
+            // menuStrip1
+            // 
+            menuStrip1.Items.AddRange(new ToolStripItem[] { zipToolStripMenuItem });
+            menuStrip1.Location = new Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new Size(1008, 24);
+            menuStrip1.TabIndex = 3;
+            menuStrip1.Text = "menuStrip1";
+            // 
+            // zipToolStripMenuItem
+            // 
+            zipToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { ziptoolStripMenuItem1, unziptoolStripMenuItem2 });
+            zipToolStripMenuItem.Name = "zipToolStripMenuItem";
+            zipToolStripMenuItem.Size = new Size(36, 20);
+            zipToolStripMenuItem.Text = "Zip";
+            // 
+            // ziptoolStripMenuItem1
+            // 
+            ziptoolStripMenuItem1.Name = "ziptoolStripMenuItem1";
+            ziptoolStripMenuItem1.Size = new Size(189, 22);
+            ziptoolStripMenuItem1.Text = "Zip Selected Directory";
+            ziptoolStripMenuItem1.Click += ziptoolStripMenuItem1_Click;
+            // 
+            // unziptoolStripMenuItem2
+            // 
+            unziptoolStripMenuItem2.Name = "unziptoolStripMenuItem2";
+            unziptoolStripMenuItem2.Size = new Size(189, 22);
+            unziptoolStripMenuItem2.Text = "Unzip Archive";
+            unziptoolStripMenuItem2.Click += unziptoolStripMenuItem2_Click;
             // 
             // Form1
             // 
@@ -95,10 +130,15 @@
             Controls.Add(splitter1);
             Controls.Add(listView1);
             Controls.Add(treeView1);
+            Controls.Add(menuStrip1);
+            MainMenuStrip = menuStrip1;
             Name = "Form1";
             Text = "Form1";
             Load += Form1_Load;
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -110,5 +150,9 @@
         private ColumnHeader columnHeader2;
         private ColumnHeader columnHeader3;
         private ColumnHeader columnHeader4;
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem zipToolStripMenuItem;
+        private ToolStripMenuItem ziptoolStripMenuItem1;
+        private ToolStripMenuItem unziptoolStripMenuItem2;
     }
 }

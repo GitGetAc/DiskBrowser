@@ -152,7 +152,7 @@ namespace DiskBrowser
         {
             string diskFile = SelectedFilePath();
 
-            if (File.Exists(diskFile)) Process.Start( new ProcessStartInfo { FileName = diskFile, UseShellExecute = true} );
+            if (File.Exists(diskFile)) Process.Start(new ProcessStartInfo { FileName = diskFile, UseShellExecute = true });
         }
 
         private void ZipFolder(string path)
@@ -169,7 +169,7 @@ namespace DiskBrowser
                 MessageBox.Show($"About to zip {path} to {zFile}");
                 ZipFile.CreateFromDirectory(path, zFile);   //Todo 2.: Set compression level
 
-                MessageBox.Show(Path.GetFileName(path)) + ".zip has been created");
+                MessageBox.Show(Path.GetFileName(path) + ".zip has been created");
             }
         }
 
@@ -180,6 +180,32 @@ namespace DiskBrowser
             zipdir = dir + "\\extractdir";
             MessageBox.Show($"About to unzip {zipfile} to {zipdir}");
             ZipFile.ExtractToDirectory(zipfile, zipdir, true);
+        }
+
+        private void ziptoolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            TreeNode treeNode;
+            string path;
+
+            MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+            DialogResult result;
+
+            treeNode = treeView1.SelectedNode;
+            if (treeNode == null)
+            {
+                MessageBox.Show("No directory selected!");
+            }
+            else
+            {
+                path = treeNode.FullPath;
+                result = MessageBox.Show($"Zip {path}?", "Zip this directory", buttons);
+            }
+
+        }
+
+        private void unziptoolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
