@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.IO.Compression;
 
 namespace DiskBrowser
 {
@@ -28,8 +29,6 @@ namespace DiskBrowser
                 //Calling AddDirs in ShowDrives()
                 AddDirs(treeNode);
             }
-
-
 
             //End
             treeView1.EndUpdate();
@@ -93,7 +92,6 @@ namespace DiskBrowser
             }
             catch (Exception)
             {
-
                 return;
             }
 
@@ -133,25 +131,61 @@ namespace DiskBrowser
 
             foreach (TreeNode treeNodeItem in e.Node.Nodes)
             {
-                AddDirs(treeNodeItem);
+                AddDirs(treeNodeItem);          //Todo 3.: Prevent fileduplication (video comment)
             }
 
             treeView1.EndUpdate();
         }
 
-        private void listView1_DoubleClick(object sender, EventArgs e)
+        private string SelectedFilePath()
         {
             string diskFile = treeView1.SelectedNode.FullPath;
 
-            if(!diskFile.EndsWith("\\")) diskFile += "\\";
+            if (!diskFile.EndsWith("\\")) diskFile += "\\";
 
             diskFile += listView1.FocusedItem.Text;
 
+            return diskFile;
+        }
+
+        private void listView1_DoubleClick(object sender, EventArgs e)
+        {
+            string diskFile = SelectedFilePath();
+
             if (File.Exists(diskFile)) Process.Start( new ProcessStartInfo { FileName = diskFile, UseShellExecute = true} );
+        }
+
+        private void ZipFolder(string path)
+        {
+            string zFile;
+
+            if (Directory.GetDirectoryRoot(path) == path)
+            {
+                MessageBox.Show($"Sorry! I will not allow you to zip the entire {path} disk!");
+            }
+            else
+            {
+                zFile = $"{path}.zip";
+                MessageBox.Show($"About to zip {path} to {zFile}");
+                ZipFile.CreateFromDirectory(path, zFile);   //Todo 2.: Set compression level
+
+                MessageBox.Show(Path.GetFileName(path)) + ".zip has been created");
+            }
+        }
+
+        private void UnZip(string dir, string zipfile)
+        {
+            string zipdir;
+
+            zipdir = dir + "\\extractdir";
+            MessageBox.Show($"About to unzip {zipfile} to {zipdir}");
+            ZipFile.ExtractToDirectory(zipfile, zipdir, true);
         }
     }
 }
 
 /*
- Todo: 1. Exception handling
+ Todo 1.: Exception handling
+ Todo 2.: Set compression level
+ Todo 3.: Prevent fileduplication (video comment)
 */
