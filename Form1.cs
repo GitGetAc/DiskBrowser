@@ -44,9 +44,21 @@ namespace DiskBrowser
             listView1.Items.Clear();
             listView1.SmallImageList = imageList1;
 
-            if (directoryInfo.Exists)
+            try
             {
-                filesArray = directoryInfo.GetFiles(); //Todo 1.: Exception handling
+                if (directoryInfo.Exists)
+                {
+                    filesArray = directoryInfo.GetFiles();
+                }
+            }
+            //Unathorized acces exception handling
+            catch (UnauthorizedAccessException)
+            {
+                MessageBox.Show("You do not have permission to access this folder. Please try again with a different folder.", "Access Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             listView1.BeginUpdate();
@@ -129,9 +141,17 @@ namespace DiskBrowser
         {
             treeView1.BeginUpdate();
 
+            Dictionary<string, TreeNode> addedDirectories = new Dictionary<string, TreeNode>();
+
             foreach (TreeNode treeNodeItem in e.Node.Nodes)
             {
-                AddDirs(treeNodeItem);          //Todo 3.: Prevent directory duplication
+                string uniqueIdentifier = $"{treeNodeItem.Parent.FullPath}\\{treeNodeItem.Text}";
+
+                if (!addedDirectories.ContainsKey(uniqueIdentifier))
+                {
+                    AddDirs(treeNodeItem);
+                    addedDirectories.Add(uniqueIdentifier, treeNodeItem);
+                }
             }
 
             treeView1.EndUpdate();
@@ -167,7 +187,7 @@ namespace DiskBrowser
             {
                 zFile = $"{path}.zip";
                 MessageBox.Show($"About to zip {path} to {zFile} -- That can take some time...");
-                ZipFile.CreateFromDirectory(path, zFile);   //Todo 2.: Set compression level
+                ZipFile.CreateFromDirectory(path, zFile, CompressionLevel.Optimal, false);   //Set compression level to optimal
 
                 MessageBox.Show(Path.GetFileName(path) + ".zip has been created!");
             }
